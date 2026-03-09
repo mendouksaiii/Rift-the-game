@@ -4,226 +4,500 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RIFT - Pitch Deck</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css">
+    <title>RIFT — Hackathon Presentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <style>
-        /* Custom RIFT HD-2D Theme */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --color-signal: #00ff6a;
-            --color-bg: #050508;
-            --color-text: #d4d4e8;
-            --color-accent1: #38bdf8;
-            /* Architect */
-            --color-accent2: #fbbf24;
-            /* Scavenger */
-            --color-accent3: #a78bfa;
-            /* Oracle */
+            /* RIFT HD-2D Theme */
+            --bg-void: #050508;
+            --bg-card: rgba(10, 11, 16, 0.7);
+            --bg-card-hover: rgba(20, 22, 32, 0.8);
+            --green-bright: #00ff6a;
+            --green-glow: rgba(0, 255, 106, 0.15);
+            --red-bright: #ff3366;
+            --amber: #fbbf24;
+            --purple: #a78bfa;
+            --cyan: #38bdf8;
+            --blue: #1e3a8a;
+            --text-primary: #d4d4e8;
+            --text-secondary: #a0a0b8;
+            --text-muted: #5a5c72;
+            --border: rgba(0, 255, 106, 0.5);
             --font-display: 'Press Start 2P', monospace;
             --font-body: 'VT323', monospace;
+            --shadow-dist: 6px;
+        }
+
+        html {
+            scroll-behavior: auto;
+            /* Handled by JS for snappy precision */
         }
 
         body {
-            background-color: var(--color-bg);
+            font-family: var(--font-body);
+            background-color: var(--bg-void);
             background-image:
                 linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
                 linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
             background-size: 100% 2px, 3px 100%;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.4;
         }
 
-        .reveal {
-            font-family: var(--font-body);
-            color: var(--color-text);
-            font-size: 32px;
-        }
-
-        .reveal h1,
-        .reveal h2,
-        .reveal h3,
-        .reveal h4 {
-            font-family: var(--font-display);
-            color: var(--color-signal);
-            text-transform: uppercase;
-            text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
-            letter-spacing: 2px;
-        }
-
-        .reveal h1 {
-            font-size: 2.5em;
-        }
-
-        .reveal h2 {
-            font-size: 1.5em;
-            margin-bottom: 40px;
-        }
-
-        .reveal h3 {
-            font-size: 1.2em;
-            color: var(--color-text);
-        }
-
-        .reveal .controls,
-        .reveal .progress {
-            color: var(--color-signal);
-        }
-
-        .glass-panel {
-            background: rgba(10, 11, 16, 0.7);
+        /* ─── 3D Utilities & Glassmorphism ─── */
+        .block-3d {
+            background: var(--bg-card);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 2px solid rgba(0, 255, 106, 0.5);
-            border-radius: 8px;
-            padding: 40px;
-            box-shadow:
-                inset 0 0 20px rgba(0, 0, 0, 0.5),
-                0 8px 32px rgba(0, 0, 0, 0.8),
-                0 0 15px rgba(0, 255, 106, 0.2);
+            border: 2px dashed var(--border);
+            box-shadow: var(--shadow-dist) var(--shadow-dist) 0px 0px rgba(0, 255, 106, 0.2);
+            transition: transform 0.1s, box-shadow 0.1s;
         }
 
-        .highlight-green {
-            color: var(--color-signal);
+        .block-3d:hover {
+            transform: translate(calc(var(--shadow-dist) * -0.5), calc(var(--shadow-dist) * -0.5));
+            box-shadow: calc(var(--shadow-dist) * 1.5) calc(var(--shadow-dist) * 1.5) 0px 0px rgba(0, 255, 106, 0.4);
         }
 
-        .highlight-blue {
-            color: var(--color-accent1);
+        /* ─── Navigation ─── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 40px;
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 2px solid var(--border);
         }
 
-        .highlight-gold {
-            color: var(--color-accent2);
+        nav .logo {
+            font-family: var(--font-display);
+            font-size: 14px;
+            color: var(--green-bright);
+            text-shadow: 2px 2px 0px var(--blue);
         }
 
-        .highlight-purple {
-            color: var(--color-accent3);
+        nav .slide-dots {
+            display: flex;
+            gap: 8px;
         }
 
-        ul {
-            list-style-type: square !important;
-            font-size: 1.2em;
+        nav .dot {
+            width: 16px;
+            height: 16px;
+            border: 3px solid var(--text-muted);
+            background: var(--bg-void);
+            cursor: pointer;
         }
 
-        li {
+        nav .dot.active {
+            background: var(--green-bright);
+            border-color: var(--green-bright);
+            box-shadow: 4px 4px 0px rgba(0, 255, 106, 0.3);
+        }
+
+        nav .slide-counter {
+            font-family: var(--font-display);
+            font-size: 16px;
+            color: var(--text-muted);
+        }
+
+        /* ─── Slides ─── */
+        .slide {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 80px 40px;
+            position: relative;
+            border-bottom: 2px dashed var(--text-muted);
+        }
+
+        .slide-label {
+            font-size: 24px;
+            text-transform: uppercase;
+            color: var(--text-muted);
             margin-bottom: 20px;
         }
 
-        .code-block {
-            background: #000;
-            border: 1px solid var(--color-signal);
-            padding: 15px;
-            font-family: var(--font-body);
-            font-size: 0.8em;
-            color: #00ff6a;
-            text-align: left;
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(24px, 4vw, 42px);
+            line-height: 1.5;
+            margin-bottom: 30px;
+            text-shadow: 4px 4px 0px #000;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: clamp(16px, 3vw, 24px);
+            line-height: 1.5;
+            margin-bottom: 20px;
+            color: var(--green-bright);
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: var(--green-bright);
+        }
+
+        .subtitle {
+            font-size: 32px;
+            color: var(--text-secondary);
+            max-width: 800px;
+            line-height: 1.2;
+        }
+
+        .highlight-green {
+            color: var(--green-bright);
+        }
+
+        .highlight-red {
+            color: var(--red-bright);
+        }
+
+        .highlight-amber {
+            color: var(--amber);
+        }
+
+        .highlight-cyan {
+            color: var(--cyan);
+        }
+
+        .highlight-purple {
+            color: var(--purple);
+        }
+
+        /* ─── Title Slide ─── */
+        #slide-title h1 span.line {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .title-badge {
+            display: inline-block;
+            background: rgba(0, 255, 106, 0.1);
+            color: var(--green-bright);
+            padding: 8px 12px;
+            font-size: 18px;
+            text-transform: uppercase;
+            font-weight: bold;
+            border: 2px solid var(--green-bright);
             box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
+            margin-bottom: 32px;
+        }
+
+        /* ─── Grid Layouts ─── */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 32px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 32px;
+        }
+
+        .card {
+            padding: 30px;
+        }
+
+        .card h3 {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 24px;
+            line-height: 1.2;
+        }
+
+        /* ─── Verdict Boxes ─── */
+        .verdict-box {
+            padding: 24px 28px;
+            margin-bottom: 25px;
+            border-left: 8px solid;
+            background: var(--bg-card);
+            backdrop-filter: blur(8px);
+        }
+
+        .verdict-box.good {
+            border-color: var(--cyan);
+        }
+
+        .verdict-box.bad {
+            border-color: var(--red-bright);
+        }
+
+        .verdict-box.warn {
+            border-color: var(--amber);
+        }
+
+        .verdict-box h4 {
+            font-family: var(--font-display);
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .verdict-box p {
+            font-size: 24px;
+            color: var(--text-secondary);
+            line-height: 1.2;
+        }
+
+        /* ─── Full Screen Iframe ─── */
+        .iframe-container {
+            width: 100%;
+            height: 100%;
+            margin-top: 20px;
+            border: 4px dashed var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 900px) {
+            .slide {
+                padding: 100px 32px 48px;
+            }
+
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                padding: 14px 20px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="reveal">
-        <div class="slides">
-            <!-- Slide 1: Title -->
-            <section>
-                <div class="glass-panel">
-                    <h1 style="font-size: 3.5em; margin-bottom: 10px;">RIFT</h1>
-                    <h3>On-Chain Dark Forest Strategy</h3>
-                    <p style="margin-top: 40px; font-size: 1.5em; color: #7a7c9a;">Powered by <span
-                            class="highlight-green">Somnia Native Reactivity</span></p>
-                </div>
-            </section>
+    <nav>
+        <div class="logo">RIFT // SOMNIA</div>
+        <div class="slide-dots" id="dots"></div>
+        <div class="slide-counter" id="counter">01 / 06</div>
+    </nav>
 
-            <!-- Slide 2: The Problem -->
-            <section>
-                <div class="glass-panel">
-                    <h2>The Problem</h2>
-                    <ul style="text-align: left;">
-                        <li>Web3 games are static or rely heavily on centralized servers.</li>
-                        <li>Off-chain "keepers" and external bots create points of failure.</li>
-                        <li>The game world feels entirely disconnected from the broader blockchain ecosystem.</li>
-                    </ul>
-                </div>
-            </section>
+    <!-- ═══════════ SLIDE 1: TITLE ═══════════ -->
+    <section class="slide" id="slide-title">
+        <div class="title-badge fade-up">Somnia Hackathon Submission</div>
+        <h1 class="fade-up" style="transition-delay: 100ms;">
+            <span class="line">RIFT: On-Chain</span>
+            <span class="line"><span class="highlight-green">Dark Forest</span></span>
+        </h1>
+        <p class="subtitle fade-up" style="transition-delay: 200ms;">
+            A persistent strategy game entirely powered by Somnia Native Reactivity. No servers, no off-chain game
+            masters, no keepers.
+        </p>
+    </section>
 
-            <!-- Slide 3: The Solution -->
-            <section>
-                <div class="glass-panel">
-                    <h2>The Solution</h2>
-                    <p style="font-size: 1.5em; margin-bottom: 30px;">True <span class="highlight-green">On-Chain
-                            Reactivity</span>.</p>
-                    <ul style="text-align: left;">
-                        <li>RIFT lives entirely inside the blockchain.</li>
-                        <li>Real-world blockchain events dynamically reshape the game board in the <b>exact same
-                                block</b>.</li>
-                        <li>No servers. No bots. The blockchain itself is the Game Master.</li>
-                    </ul>
-                </div>
-            </section>
+    <!-- ═══════════ SLIDE 2: THE IDEA ═══════════ -->
+    <section class="slide" id="slide-idea">
+        <div class="slide-label">01 — The Problem</div>
+        <h2>Web3 games aren't <span class="highlight-green">really</span> on-chain.</h2>
+        <p class="subtitle">Most blockchain games rely on centralized servers or off-chain bot "keepers" to manage game
+            states, process ticks, and handle logic.</p>
 
-            <!-- Slide 4: Somnia Architecture -->
-            <section>
-                <div class="glass-panel">
-                    <h2>Somnia Watchers</h2>
-                    <p style="font-size: 1.2em; margin-bottom: 20px;">We built 5 Custom <span
-                            class="highlight-green">ReactiveWatchers</span>:</p>
-                    <ul style="font-size: 1em; text-align: left;">
-                        <li><span class="highlight-blue">Price Oracle</span> ➔ Triggers Economic Shockwaves</li>
-                        <li><span class="highlight-gold">Lending Liquidation</span> ➔ Triggers Territory Collapses</li>
-                        <li><span class="highlight-purple">Whale Transfers</span> ➔ Triggers Seismic Fault Line Shifts
-                        </li>
-                        <li><span class="highlight-blue">DAO Governance</span> ➔ Unlocks Oracle Race Windows</li>
-                        <li><span class="highlight-green">Yield Claiming</span> ➔ Triggers Map-Wide Prosperity</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- Slide 5: Factions -->
-            <section>
-                <div class="glass-panel">
-                    <h2>Choose Allegiance</h2>
-                    <div style="display: flex; justify-content: space-around; margin-top: 40px; text-align: left;">
-                        <div>
-                            <h3 class="highlight-blue" style="font-family: var(--font-display); font-size: 1em;">■
-                                ARCHITECT</h3>
-                            <p style="font-size: 1em; color: #d4d4e8;">Builders & Defenders<br>Thrive in stability.</p>
-                        </div>
-                        <div>
-                            <h3 class="highlight-gold" style="font-family: var(--font-display); font-size: 1em;">▲
-                                SCAVENGER</h3>
-                            <p style="font-size: 1em; color: #d4d4e8;">Raiders & Opportunists<br>Thrive in chaos.</p>
-                        </div>
-                        <div>
-                            <h3 class="highlight-purple" style="font-family: var(--font-display); font-size: 1em;">●
-                                ORACLE</h3>
-                            <p style="font-size: 1em; color: #d4d4e8;">Seers & Speculators<br>Thrive in governance.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Slide 6: Demo Transition -->
-            <section>
-                <div class="glass-panel">
-                    <h2>Initialize Uplink</h2>
-                    <p style="font-size: 1.8em; margin-top: 40px;" class="highlight-green blink">AWAITING COMMAND...</p>
-                    <p style="font-size: 1.2em; color: #5a5c72; margin-top: 20px;">Deploying to Live Demo</p>
-                </div>
-            </section>
+        <div class="grid-2 fade-up">
+            <div class="verdict-box bad">
+                <h4>❌ Off-Chain Processing</h4>
+                <p>If the game server dies, the game dies. Actions are permissioned by the developer's infrastructure.
+                </p>
+            </div>
+            <div class="verdict-box bad">
+                <h4>❌ Isolated Ecosystems</h4>
+                <p>The game state is completely ignored by the rest of the blockchain's TVL and DeFi action.</p>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <!-- ═══════════ SLIDE 3: WHAT WORKS ═══════════ -->
+    <section class="slide" id="slide-works">
+        <div class="slide-label">02 — The Solution</div>
+        <h2>The blockchain is the <span class="highlight-green">Game Master</span>.</h2>
+        <div class="grid-3">
+            <div class="card block-3d fade-up" style="transition-delay: 50ms;">
+                <span class="card-icon" style="font-size: 32px;">🌐</span>
+                <h3>Native Reactivity</h3>
+                <p>Built with Somnia's Reactive SDK. The game Mutates in the <strong>same block</strong> that external
+                    events happen.</p>
+            </div>
+            <div class="card block-3d fade-up" style="transition-delay: 150ms;">
+                <span class="card-icon" style="font-size: 32px;">💥</span>
+                <h3>Dynamic External Triggers</h3>
+                <p>Mock DeFi Liquidations, Price Crashes, and DAO Votes directly alter the 49-hex physical map.</p>
+            </div>
+            <div class="card block-3d fade-up" style="transition-delay: 250ms;">
+                <span class="card-icon" style="font-size: 32px;">🕹️</span>
+                <h3>Live HD-2D UX</h3>
+                <p>A fully decentralized glassmorphic, pixel-art tactical frontend reading strictly from on-chain RPC
+                    calls.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ SLIDE 4: ARCHITECTURE ═══════════ -->
+    <section class="slide" id="slide-architecture">
+        <div class="slide-label">03 — Architecture</div>
+        <h2>5 Custom Reactive <span class="highlight-green">Watchers</span>.</h2>
+        <div class="grid-2">
+            <div class="verdict-box good fade-up">
+                <h4 class="highlight-cyan">Price Oracle Watcher</h4>
+                <p>Listens for 3% price drops. Triggers an <span class="highlight-red">Economic Shockwave</span>,
+                    destroying market zone wealth.</p>
+            </div>
+            <div class="verdict-box good fade-up">
+                <h4 class="highlight-amber">Lending Protocol Watcher</h4>
+                <p>Listens for liquidations. Triggers <span class="highlight-red">Territory Collapses</span> on the
+                    borders, opening them to attack.</p>
+            </div>
+            <div class="verdict-box good fade-up">
+                <h4 class="highlight-purple">ERC20 Whale Watcher</h4>
+                <p>Listens for massive transfers. Triggers a <span class="highlight-red">Seismic Event</span> that
+                    scrambles fault lines.</p>
+            </div>
+            <div class="verdict-box good fade-up">
+                <h4 class="highlight-cyan">DAO Governance Watcher</h4>
+                <p>Listens for proposals. Generates <span class="highlight-cyan">Relics</span> in Oracle Zones to grant
+                    buffs.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ SLIDE 5: LIVE DEMO INTRO ═══════════ -->
+    <section class="slide" id="slide-intro">
+        <div class="slide-label">04 — Deployment</div>
+        <h2>14 Contracts LIVE on <span class="highlight-green">Somnia Testnet</span></h2>
+        <p class="subtitle fade-up" style="margin-bottom: 40px;">
+            The `RiftWorld` engine, player registrations, mock DeFi protocols, and all 5 Reactivity Watchers are live on
+            the Shannon Testnet.
+        </p>
+        <p class="subtitle fade-up blink"
+            style="color: var(--green-bright); font-family: var(--font-display); font-size: 24px;">
+            > INITIALIZING UPLINK TO LOCALHOST DEMO...
+        </p>
+    </section>
+
+    <!-- ═══════════ SLIDE 6: EMBEDDED DAPP ═══════════ -->
+    <section class="slide" id="slide-demo" style="padding: 40px;">
+        <div class="slide-label" style="margin-bottom: 0;">05 — Live Game Feed</div>
+        <div class="iframe-container">
+            <!-- This loads the local Vite development server directly inside the presentation -->
+            <iframe src="http://localhost:5173" allow="clipboard-write"></iframe>
+        </div>
+    </section>
+
     <script>
-        Reveal.initialize({
-            hash: true,
-            controls: true,
-            progress: true,
-            center: true,
-            transition: 'zoom', // none/fade/slide/convex/concave/zoom
-            backgroundTransition: 'fade',
+        // ─── Slide tracking + navigation ───
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.getElementById('dots');
+        const counter = document.getElementById('counter');
+
+        slides.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                slides[i].scrollIntoView({ behavior: 'smooth' });
+            });
+            dotsContainer.appendChild(dot);
         });
 
-        // Add subtle blinking effect to the initializing text
+        const dots = document.querySelectorAll('.dot');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = Array.from(slides).indexOf(entry.target);
+                    dots.forEach((d, i) => d.classList.toggle('active', i === index));
+                    counter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+                }
+            });
+        }, { threshold: 0.5 });
+
+        slides.forEach(s => observer.observe(s));
+
+        // ─── Fade-in on scroll ───
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+
+        // ─── Keyboard nav ───
+        let currentSlide = 0;
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                currentSlide = Math.min(currentSlide + 1, slides.length - 1);
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                currentSlide = Math.max(currentSlide - 1, 0);
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Sync keyboard nav with scroll
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    currentSlide = Array.from(slides).indexOf(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        slides.forEach(s => scrollObserver.observe(s));
+
+        // Blinking text
         setInterval(() => {
             const blinker = document.querySelector('.blink');
             if (blinker) {
