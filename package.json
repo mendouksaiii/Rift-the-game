@@ -1,0 +1,27 @@
+{
+    "name": "rift",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "RIFT — Reactive On-Chain Dark Forest Game powered by Somnia Native Reactivity",
+    "scripts": {
+        "compile": "hardhat compile",
+        "test": "hardhat test",
+        "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+        "deploy:somnia": "hardhat run scripts/deploy.js --network somniaTestnet",
+        "demo": "hardhat run scripts/demo/runFullDemo.js --network localhost",
+        "node": "hardhat node"
+    },
+    "keywords": [
+        "somnia",
+        "reactive",
+        "blockchain",
+        "game",
+        "dark-forest"
+    ],
+    "license": "MIT",
+    "devDependencies": {
+        "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+        "hardhat": "^2.22.0",
+        "dotenv": "^16.4.0"
+    }
+}
