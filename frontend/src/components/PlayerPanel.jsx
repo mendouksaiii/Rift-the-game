@@ -3,9 +3,9 @@ import { FACTION_NAMES, ZONE_TYPES } from '../contracts';
 import { useSound } from '../SoundContext';
 
 const FC = {
-    0: { color: '#38bdf8', icon: '◇', name: 'ARCHITECT', desc: 'Builder · Defender' },
-    1: { color: '#fbbf24', icon: '◆', name: 'SCAVENGER', desc: 'Raider · Opportunist' },
-    2: { color: '#a78bfa', icon: '◎', name: 'ORACLE', desc: 'Speculator · Seer' },
+    0: { color: '#38bdf8', icon: '■', name: 'ARCHITECT', desc: 'Builder · Defender' },
+    1: { color: '#fbbf24', icon: '▲', name: 'SCAVENGER', desc: 'Raider · Opportunist' },
+    2: { color: '#a78bfa', icon: '●', name: 'ORACLE', desc: 'Speculator · Seer' },
 };
 
 export default function PlayerPanel({ player, account, territories, onRegister, onTrade }) {
@@ -39,8 +39,8 @@ export default function PlayerPanel({ player, account, territories, onRegister, 
             <div className="flex-1 overflow-y-auto p-8 space-y-8">
                 {!isConnected ? (
                     <div className="flex flex-col items-center justify-center h-full" style={{ color: '#2a2c3a' }}>
-                        <div className="text-6xl mb-6 opacity-20">⟡</div>
-                        <div className="text-sm tracking-widest mb-2" style={{ fontFamily: 'var(--font-display)', color: '#4a4c62' }}>
+                        <div className="text-6xl mb-6 opacity-20 filter drop-shadow">■</div>
+                        <div className="text-sm mb-2" style={{ fontFamily: 'var(--font-display)', color: '#4a4c62' }}>
                             AWAITING UPLINK
                         </div>
                         <div className="text-base" style={{ color: '#2a2c3a' }}>
@@ -62,7 +62,7 @@ export default function PlayerPanel({ player, account, territories, onRegister, 
                         {!isReg ? (
                             /* Faction selection */
                             <div className="animate-fade-up space-y-4 mt-8">
-                                <div className="text-sm text-center mb-6 font-bold" style={{ fontFamily: 'var(--font-display)', color: '#4a4c62', letterSpacing: '3px' }}>
+                                <div className="text-sm text-center mb-6 font-bold" style={{ fontFamily: 'var(--font-display)', color: '#4a4c62' }}>
                                     SELECT FACTION TO INITIALIZE
                                 </div>
                                 {[0, 1, 2].map((f) => (
@@ -207,6 +207,6 @@ export default function PlayerPanel({ player, account, territories, onRegister, 
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     );
 }

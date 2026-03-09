@@ -50,10 +50,10 @@
   --color-text-tertiary: #4a4c62;
   --color-text-ghost: #2a2c3a;
 
-  /* ── Fonts ── */
-  --font-display: 'Chakra Petch', 'Exo 2', sans-serif;
-  --font-data: 'IBM Plex Mono', 'Fira Code', monospace;
-  --font-body: 'IBM Plex Sans', 'DM Sans', sans-serif;
+  /* ── HD-2D Fonts ── */
+  --font-display: 'Press Start 2P', 'VT323', monospace;
+  --font-data: 'VT323', 'IBM Plex Mono', monospace;
+  --font-body: 'VT323', 'DM Sans', sans-serif;
 }
 
 /* ═══════════════════════════════════════
@@ -100,17 +100,33 @@ body,
   background-size: 60px 60px, 60px 60px, 100% 100%, 100% 100%;
 }
 
-/* Scanline overlay */
+/* Scanline overlay HD-2D style */
 .bg-rift::after {
   content: '';
   position: absolute;
   inset: 0;
   background: repeating-linear-gradient(0deg,
-      transparent,
+      rgba(0, 0, 0, 0.15),
+      rgba(0, 0, 0, 0.15) 2px,
       transparent 2px,
-      rgba(0, 255, 106, 0.008) 2px,
-      rgba(0, 255, 106, 0.008) 4px);
-  animation: scanline-drift 8s linear infinite;
+      transparent 4px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* CRT monitor curvature and vignette */
+.bg-rift::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
 }
 
 @keyframes scanline-drift {
@@ -157,42 +173,38 @@ body,
 }
 
 /* ═══════════════════════════════════════
-   PANELS — Frosted CRT glass feel
+   HD-2D PANELS — Frosted Glass + Neon Borders
    ═══════════════════════════════════════ */
 
 .panel-rift {
-  background: linear-gradient(168deg, var(--color-surface-2) 0%, var(--color-surface-1) 60%, var(--color-void-deep) 100%);
-  border: 1px solid var(--color-border-dim);
-  border-radius: 4px;
+  background: rgba(10, 11, 16, 0.5);
+  /* Semi-transparent */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 2px solid var(--color-border-glow);
+  border-radius: 8px;
+  /* Slightly rounded for the glass feel */
   position: relative;
   overflow: hidden;
+  box-shadow:
+    inset 0 0 20px rgba(0, 0, 0, 0.5),
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 8px var(--color-border-glow);
+  /* Outer neon glow */
 }
 
-/* Corner accents — like a technical blueprint */
+/* Pixel-art border accents */
 .panel-rift::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 24px;
-  height: 24px;
-  border-top: 2px solid var(--color-signal);
-  border-left: 2px solid var(--color-signal);
-  opacity: 0.4;
-  z-index: 2;
-}
-
-.panel-rift::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 24px;
-  height: 24px;
-  border-bottom: 2px solid var(--color-signal);
-  border-right: 2px solid var(--color-signal);
-  opacity: 0.4;
-  z-index: 2;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+  border-radius: 4px;
+  z-index: 1;
 }
 
 .panel-header-rift {
@@ -235,20 +247,34 @@ body,
 }
 
 /* ═══════════════════════════════════════
-   HEX GRID
+   HEX GRID — 3D Lighting & Shadows
    ═══════════════════════════════════════ */
 
 .hex-territory {
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), filter 0.1s;
+  /* Apply a default drop shadow for 3D pop */
+  filter: drop-shadow(0px 8px 4px rgba(0, 0, 0, 0.6));
 }
 
 .hex-territory:hover {
-  filter: brightness(1.5) saturate(1.3);
+  transform: translateY(-4px);
+  /* Physically lift the hex */
+  filter: drop-shadow(0px 14px 8px rgba(0, 0, 0, 0.8)) brightness(1.3) contrast(1.2);
+}
+
+.hex-territory:active {
+  transform: translateY(2px);
+  /* Click down */
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.9)) brightness(0.9);
+}
+
+.hex-territory polygon {
+  transition: stroke-width 0.1s;
 }
 
 .hex-territory:hover polygon {
-  stroke-width: 2.5;
+  stroke-width: 3;
 }
 
 @keyframes instability-throb {
@@ -306,30 +332,37 @@ body,
 }
 
 /* ═══════════════════════════════════════
-   TOOLTIP
+   TOOLTIP — Pixel Art Style
    ═══════════════════════════════════════ */
 
 .tooltip-rift {
   position: absolute;
-  background: var(--color-surface-2);
-  border: 1px solid var(--color-border);
-  border-left: 3px solid var(--color-signal);
-  border-radius: 2px;
-  padding: 10px 14px;
-  font-size: 11px;
+  background: rgba(15, 16, 24, 0.85);
+  backdrop-filter: blur(8px);
+  border: 2px solid var(--color-signal);
+  border-radius: 0;
+  /* Blocky */
+  padding: 12px 16px;
+  font-size: 14px;
+  /* Larger for pixel font readability */
   z-index: 50;
   pointer-events: none;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 1px var(--color-signal);
-  max-width: 220px;
+  box-shadow:
+    4px 4px 0px rgba(0, 0, 0, 0.8),
+    /* Hard pixel shadow */
+    0 0 10px var(--color-signal);
+  /* Neon glow */
+  max-width: 260px;
+  image-rendering: pixelated;
 }
 
 .tooltip-rift .tooltip-label {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 2px;
-  color: var(--color-signal);
-  margin-bottom: 6px;
+  font-size: 12px;
+  color: #fff;
+  text-shadow: 2px 2px 0px var(--color-signal);
+  margin-bottom: 8px;
+  text-transform: uppercase;
 }
 
 /* ═══════════════════════════════════════
@@ -388,62 +421,74 @@ body,
 }
 
 /* ═══════════════════════════════════════
-   BUTTONS
+   BUTTONS — Pixel 3D Push
    ═══════════════════════════════════════ */
 
 .btn-rift {
-  padding: 8px 16px;
-  border: 1px solid var(--color-border);
-  border-radius: 2px;
+  padding: 10px 18px;
+  border: 2px solid var(--color-border);
+  border-radius: 0;
   background: var(--color-surface-2);
   color: var(--color-text-primary);
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 11px;
-  letter-spacing: 2px;
+  font-size: 10px;
+  /* Press Start 2P is very wide */
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.1s, box-shadow 0.1s, background 0.2s;
   position: relative;
-  overflow: hidden;
+  /* Hard pixel shadow acting as 3D depth */
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
 }
 
 .btn-rift:hover {
   border-color: var(--color-signal);
-  background: var(--color-signal-ghost);
-  color: var(--color-signal);
-  box-shadow: 0 0 20px rgba(0, 255, 106, 0.08), inset 0 0 20px rgba(0, 255, 106, 0.03);
+  background: rgba(0, 255, 106, 0.15);
+  color: #fff;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8), 0 0 15px var(--color-signal-pulse);
 }
 
 .btn-rift:active {
-  transform: scale(0.98);
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.8);
+  /* Shadow disappears */
 }
 
 .btn-rift:disabled {
-  opacity: 0.3;
+  opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
 }
 
 .btn-rift-primary {
-  background: linear-gradient(135deg, rgba(0, 255, 106, 0.12), rgba(0, 255, 106, 0.04));
-  border-color: var(--color-signal-dim);
-  color: var(--color-signal);
+  background: var(--color-signal-dim);
+  border-color: #fff;
+  color: #000;
+  box-shadow: 4px 4px 0px var(--color-signal), inset -2px -2px 0px rgba(0, 0, 0, 0.3), inset 2px 2px 0px rgba(255, 255, 255, 0.5);
 }
 
 .btn-rift-primary:hover {
-  background: linear-gradient(135deg, rgba(0, 255, 106, 0.2), rgba(0, 255, 106, 0.08));
-  box-shadow: 0 0 30px rgba(0, 255, 106, 0.15);
+  background: var(--color-signal);
+  color: #000;
+  box-shadow: 4px 4px 0px var(--color-signal), inset -2px -2px 0px rgba(0, 0, 0, 0.3), inset 2px 2px 0px rgba(255, 255, 255, 0.8);
+}
+
+.btn-rift-primary:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px var(--color-signal), inset -2px -2px 0px rgba(0, 0, 0, 0.3), inset 2px 2px 0px rgba(255, 255, 255, 0.5);
 }
 
 /* ═══════════════════════════════════════
-   MODAL
+   MODAL — Glassmorphic
    ═══════════════════════════════════════ */
 
 .modal-rift-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(2, 2, 4, 0.85);
-  backdrop-filter: blur(8px);
+  background: rgba(2, 2, 4, 0.65);
+  backdrop-filter: blur(12px);
+  /* High blur for background */
   z-index: 100;
   display: flex;
   align-items: center;
@@ -462,25 +507,32 @@ body,
 }
 
 .modal-rift-content {
-  background: linear-gradient(168deg, var(--color-surface-2), var(--color-void-deep));
-  border: 1px solid var(--color-border);
-  border-top: 2px solid var(--color-signal);
-  border-radius: 4px;
+  background: rgba(15, 16, 24, 0.7);
+  backdrop-filter: blur(24px);
+  /* Intense glass effect on modal itself */
+  border: 4px solid var(--color-surface-3);
+  border-top: 4px solid var(--color-signal);
+  border-radius: 8px;
   padding: 0;
   width: 420px;
   max-width: 90vw;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 1px var(--color-signal);
-  animation: modal-slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 40px 100px rgba(0, 0, 0, 0.9),
+    0 0 20px rgba(0, 255, 106, 0.3),
+    inset 0 0 40px rgba(0, 0, 0, 0.5);
+  /* Inner darkening for depth */
+  animation: modal-slide-up 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Bouncy enter */
 }
 
 @keyframes modal-slide-up {
   0% {
-    transform: translateY(20px);
+    transform: translateY(40px) scale(0.95);
     opacity: 0;
   }
 
   100% {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     opacity: 1;
   }
 }
@@ -637,26 +689,27 @@ body,
    ═══════════════════════════════════════ */
 
 .nav-link {
-  padding: 4px 12px;
+  padding: 6px 14px;
   font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #3a3c52;
+  font-size: 12px;
+  color: #5a5c72;
   text-decoration: none;
-  border-radius: 2px;
+  border-radius: 0;
   transition: all 0.2s ease;
+  position: relative;
 }
 
 .nav-link:hover {
-  color: #7a7c9a;
-  background: rgba(255, 255, 255, 0.02);
+  color: #d4d4e8;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 -2px 0 var(--color-border);
 }
 
 .nav-link.active {
-  color: #00ff6a;
-  text-shadow: 0 0 10px rgba(0, 255, 106, 0.4);
+  color: #fff;
+  text-shadow: 0 0 10px var(--color-signal);
+  background: rgba(0, 255, 106, 0.1);
+  box-shadow: inset 0 -4px 0 var(--color-signal);
 }
 
 .no-underline {

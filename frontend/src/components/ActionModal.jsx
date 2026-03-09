@@ -22,12 +22,12 @@ export default function ActionModal({ territory, player, account, raidWindowActi
     const canClaimRelic = isOwner && t.hasRelic;
 
     const actions = [
-        { id: 'claim', name: 'CLAIM', icon: '◆', cost: raidWindowActive ? '25 FLX' : '50 FLX', desc: 'Seize control', ok: canClaim, color: '#00ff6a' },
-        { id: 'fortify', name: 'FORTIFY', icon: '◇', cost: '30 FLX', desc: '+20 stability', ok: canFortify, color: '#38bdf8' },
+        { id: 'claim', name: 'CLAIM', icon: '■', cost: raidWindowActive ? '25 FLX' : '50 FLX', desc: 'Seize control', ok: canClaim, color: '#00ff6a' },
+        { id: 'fortify', name: 'FORTIFY', icon: '◫', cost: '30 FLX', desc: '+20 stability', ok: canFortify, color: '#38bdf8' },
         { id: 'raid', name: 'RAID', icon: '▲', cost: '10 SHD', desc: 'Attack territory', ok: canRaid, color: '#ff4a1c' },
-        { id: 'build-shield', name: 'SHIELD', icon: '◆', cost: '80 FLX', desc: '+20 perm stability', ok: canBuild, color: '#38bdf8' },
+        { id: 'build-shield', name: 'SHIELD', icon: '■', cost: '80 FLX', desc: '+20 perm stability', ok: canBuild, color: '#38bdf8' },
         { id: 'build-mine', name: 'MINE', icon: '▲', cost: '80 FLX', desc: '+10 wealth', ok: canBuild, color: '#fbbf24' },
-        { id: 'build-beacon', name: 'BEACON', icon: '◎', cost: '80 FLX', desc: 'Early warning', ok: canBuild, color: '#a78bfa' },
+        { id: 'build-beacon', name: 'BEACON', icon: '●', cost: '80 FLX', desc: 'Early warning', ok: canBuild, color: '#a78bfa' },
         { id: 'build-watchtower', name: 'WATCHTOWER', icon: '◬', cost: '120 FLX', desc: '+30 perm stability', ok: canBuild, color: '#38bdf8' },
         { id: 'build-siphon', name: 'SIPHON', icon: '▼', cost: '100 FLX', desc: '+20 wealth, -10 stab', ok: canBuild, color: '#ff4a1c' },
         { id: 'claim-relic', name: 'CLAIM RELIC', icon: '✦', cost: '50 FLX + 10 SHD', desc: '+10% Yield Boost', ok: canClaimRelic, color: '#facc15' },
@@ -111,7 +111,7 @@ export default function ActionModal({ territory, player, account, raidWindowActi
                                 className="w-full flex items-center gap-3 p-3 rounded-sm text-left transition-all hover:brightness-130"
                                 style={{ background: a.color + '06', border: `1px solid ${a.color}18` }}
                             >
-                                <span className="text-sm" style={{ color: a.color, fontFamily: 'var(--font-display)', fontWeight: 700 }}>
+                                <span className="text-sm" style={{ color: a.color, fontFamily: 'var(--font-display)', fontWeight: 400, filter: 'drop-shadow(0 0 4px currentColor)' }}>
                                     {a.icon}
                                 </span>
                                 <div className="flex-1">

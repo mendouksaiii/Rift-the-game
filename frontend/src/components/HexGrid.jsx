@@ -62,10 +62,11 @@ function hexStroke(t) {
 function strokeW(t) {
     if (t.instability) return 2;
     const hasOwner = t.controller && t.controller !== '0x0000000000000000000000000000000000000000';
-    return hasOwner ? 1.2 + (t.stability / 100) * 1.3 : 0.8;
+    // Stick to integer or half-integer strokes for a blockier pixel look
+    return hasOwner ? Math.floor(1.5 + (t.stability / 100) * 2) : 1;
 }
 
-const STRUCT = { 1: '◆', 2: '▲', 3: '◎' };
+const STRUCT = { 1: '■', 2: '▲', 3: '●' }; // Blockier ascii shapes
 const ZONE_TAG = { 0: 'MKT', 1: 'BDR', 2: 'ORC', 3: 'FLT' };
 
 export default function HexGrid({ territories, raidWindowActive, onHexClick, selectedHex, account }) {
@@ -93,13 +94,27 @@ export default function HexGrid({ territories, raidWindowActive, onHexClick, sel
             <div className="map-data-bg" />
             <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full h-full relative z-10" style={{ maxWidth: svgW }}>
                 <defs>
-                    <filter id="hex-glow-green">
-                        <feGaussianBlur stdDeviation="4" result="b" />
-                        <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+                    {/* HD-2D 3D Drop Shadow for hexes */}
+                    <filter id="hex-shadow" x="-20%" y="-20%" width="150%" height="150%">
+                        <feDropShadow dx="0" dy="8" stdDeviation="4" floodColor="#000" floodOpacity="0.8" />
                     </filter>
-                    <filter id="hex-glow-red">
-                        <feGaussianBlur stdDeviation="6" result="b" />
-                        <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+                    <filter id="hex-shadow-hover" x="-20%" y="-20%" width="150%" height="150%">
+                        <feDropShadow dx="0" dy="16" stdDeviation="8" floodColor="#000" floodOpacity="0.9" />
+                    </filter>
+                    {/* Neon Glows */}
+                    <filter id="hex-glow-green" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="3" result="b1" />
+                        <feGaussianBlur stdDeviation="8" result="b2" />
+                        <feMerge><feMergeNode in="b2" /><feMergeNode in="b1" /><feMergeNode in="SourceGraphic" /></feMerge>
+                    </filter>
+                    <filter id="hex-glow-red" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="4" result="b1" />
+                        <feGaussianBlur stdDeviation="12" result="b2" />
+                        <feMerge><feMergeNode in="b2" /><feMergeNode in="b1" /><feMergeNode in="SourceGraphic" /></feMerge>
+                    </filter>
+                    <filter id="pixelate">
+                        {/* A rough way to ensure hard edges in SVG if needed, but styling handles most of it */}
+                        <feComponentTransfer><feFuncA type="discrete" tableValues="0 1" /></feComponentTransfer>
                     </filter>
                 </defs>
 
@@ -138,12 +153,14 @@ export default function HexGrid({ territories, raidWindowActive, onHexClick, sel
                                 </g>
                             )}
 
-                            {/* Main hex */}
+                            {/* Main hex with 3D shadow */}
                             <polygon
                                 points={pts(x, y, HEX_R - 1)}
                                 fill={hexFill(t)}
                                 stroke={hexStroke(t)}
                                 strokeWidth={strokeW(t)}
+                                filter={isSel ? "url(#hex-shadow-hover)" : "url(#hex-shadow)"}
+                                style={{ strokeLinejoin: 'miter' }} // Sharp corners for pixel look
                             />
 
                             {/* Inner subtle gradient for depth */}
@@ -215,25 +232,24 @@ export default function HexGrid({ territories, raidWindowActive, onHexClick, sel
                                 </text>
                             )}
 
-                            {/* Ownership pip */}
+                            {/* Ownership pip (Blocky) */}
                             {isOwn && (
-                                <circle
-                                    cx={x + HEX_R - 10} cy={y - HEX_R + 10} r="3"
+                                <rect
+                                    x={x + HEX_R - 12} y={y - HEX_R + 8} width="6" height="6"
                                     fill="#00ff6a"
-                                    opacity="0.9"
-                                    className="animate-pulse"
+                                    opacity="1"
+                                    className="animate-pulse drop-shadow-[0_0_4px_rgba(0,255,106,0.8)]"
                                 />
                             )}
 
-                            {/* Stability micro-bar */}
+                            {/* Stability micro-bar — Retro blocky */}
                             {!t.locked && (
                                 <>
-                                    <rect x={x - 12} y={y + 17} width="24" height="2" rx="1" fill="#0f1018" />
+                                    <rect x={x - 14} y={y + 18} width="28" height="4" fill="#050508" stroke="#1a1c2a" strokeWidth="1" />
                                     <rect
-                                        x={x - 12} y={y + 17}
-                                        width={24 * (t.stability / 100)} height="2" rx="1"
+                                        x={x - 13} y={y + 19}
+                                        width={26 * (t.stability / 100)} height="2"
                                         fill={t.stability > 60 ? '#00ff6a' : t.stability > 25 ? '#fbbf24' : '#ff4a1c'}
-                                        opacity="0.7"
                                     />
                                 </>
                             )}

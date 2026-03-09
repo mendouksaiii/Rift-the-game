@@ -4,7 +4,7 @@ import { useGame } from '../GameContext';
 
 const FACTIONS = [
     {
-        id: 0, name: 'ARCHITECT', icon: '◇', glyph: '⬡', color: '#38bdf8', colorDim: '#1a6fa0',
+        id: 0, name: 'ARCHITECT', icon: '■', glyph: '⬣', color: '#38bdf8', colorDim: '#1a6fa0',
         tagline: 'BUILDERS & DEFENDERS',
         motto: '"We build what the Rift destroys."',
         desc: 'Architects are the backbone of civilization in the Rift. They build, they fortify, they endure. When the world trembles, Architects stand firm. Their structures last longer, their walls hold stronger, and their territories generate stability passively.\n\nBut they are not invincible. Collapse events — triggered by real liquidations on-chain — hit Architects hardest, crumbling the very foundations they built.',
@@ -16,7 +16,7 @@ const FACTIONS = [
         stats: { offense: 2, defense: 5, economy: 4, survival: 5 },
     },
     {
-        id: 1, name: 'SCAVENGER', icon: '◆', glyph: '⚔', color: '#fbbf24', colorDim: '#a07a18',
+        id: 1, name: 'SCAVENGER', icon: '▲', glyph: '⛊', color: '#fbbf24', colorDim: '#a07a18',
         tagline: 'RAIDERS & OPPORTUNISTS',
         motto: '"Chaos is a ladder. We climb fast."',
         desc: 'Scavengers thrive in chaos. When markets crash and borders collapse, Scavengers move in. They raid destabilized territories, seize abandoned hexes during instability windows, and accumulate Shards from the wreckage.\n\nBut when prosperity returns and the world stabilizes, Scavengers lose their edge. A peaceful chain is a Scavenger\'s worst nightmare.',
@@ -28,7 +28,7 @@ const FACTIONS = [
         stats: { offense: 5, defense: 2, economy: 3, survival: 3 },
     },
     {
-        id: 2, name: 'ORACLE', icon: '◎', glyph: '👁', color: '#a78bfa', colorDim: '#6a50b0',
+        id: 2, name: 'ORACLE', icon: '●', glyph: '◉', color: '#a78bfa', colorDim: '#6a50b0',
         tagline: 'SEERS & SPECULATORS',
         motto: '"We see what the chain reveals."',
         desc: 'Oracles see what others cannot. When governance proposals execute on-chain, Oracle zones unlock — and only Oracles can claim them for free during the 5-block race window. These locked hexes contain the highest wealth in the game.\n\nBut Oracles are fragile on unstable ground. Seismic events — triggered by whale movements — devastate Oracle holdings disproportionately.',
@@ -76,18 +76,18 @@ export default function FactionsPage() {
             {/* Hero — compact */}
             <div className="relative py-8 text-center shrink-0 overflow-hidden">
                 <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(0,255,106,0.04) 0%, transparent 60%)' }} />
-                <h1 className="text-4xl font-bold tracking-widest mb-2" style={{ fontFamily: 'var(--font-display)', color: '#d4d4e8' }}>
+                <h1 className="text-4xl tracking-widest mb-2" style={{ fontFamily: 'var(--font-display)', color: '#d4d4e8', textShadow: '4px 4px 0px rgba(0,0,0,0.8)' }}>
                     CHOOSE YOUR PATH
                 </h1>
-                <p className="text-sm tracking-[6px]" style={{ fontFamily: 'var(--font-display)', color: '#3a3c52' }}>
+                <p className="text-xs tracking-[4px]" style={{ fontFamily: 'var(--font-data)', color: '#7a7c9a' }}>
                     YOUR ALLEGIANCE SHAPES YOUR DESTINY
                 </p>
                 {!account && (
-                    <button onClick={connect} className="btn-rift btn-rift-primary mt-4 px-8 py-3 text-sm">CONNECT TO CHOOSE</button>
+                    <button onClick={connect} className="btn-rift btn-rift-primary mt-6 px-12 py-4 text-xs font-bold">CONNECT TO CHOOSE</button>
                 )}
                 {isRegistered && (
-                    <div className="mt-3 text-sm font-bold tracking-widest" style={{ color: '#4a4c62', fontFamily: 'var(--font-display)' }}>
-                        ◆ YOU ARE {FACTIONS[player.faction]?.name}
+                    <div className="mt-4 text-xs tracking-widest" style={{ color: '#4a4c62', fontFamily: 'var(--font-display)' }}>
+                        ■ YOU ARE {FACTIONS[player.faction]?.name}
                     </div>
                 )}
             </div>
@@ -129,12 +129,12 @@ export default function FactionsPage() {
                                 {/* Header */}
                                 <div className="mb-6">
                                     <div className="flex items-start gap-4 mb-3">
-                                        <span className="text-4xl" style={{ color: f.color }}>{f.icon}</span>
+                                        <span className="text-3xl filter drop-shadow" style={{ color: f.color }}>{f.icon}</span>
                                         <div>
-                                            <h2 className="text-3xl font-bold tracking-wider" style={{ fontFamily: 'var(--font-display)', color: f.color }}>
+                                            <h2 className="text-2xl tracking-wider" style={{ fontFamily: 'var(--font-display)', color: f.color, textShadow: '2px 2px 0px rgba(0,0,0,0.8)' }}>
                                                 {f.name}
                                             </h2>
-                                            <p className="text-sm tracking-[4px] mt-1" style={{ fontFamily: 'var(--font-display)', color: '#5a5c72' }}>
+                                            <p className="text-xs tracking-[2px] mt-2" style={{ fontFamily: 'var(--font-data)', color: '#7a7c9a' }}>
                                                 {f.tagline}
                                             </p>
                                         </div>
