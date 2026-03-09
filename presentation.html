@@ -319,8 +319,13 @@
 <body>
     <nav>
         <div class="logo">RIFT // SOMNIA</div>
-        <div class="slide-dots" id="dots"></div>
-        <div class="slide-counter" id="counter">01 / 06</div>
+        <div class="nav-controls" style="display: flex; gap: 20px; align-items: center;">
+            <button id="audio-btn"
+                style="background: var(--bg-void); color: var(--green-bright); border: 2px solid var(--green-bright); padding: 5px 10px; font-family: var(--font-display); font-size: 10px; cursor: pointer; border-radius: 4px; transition: all 0.2s;">NARRATION:
+                OFF</button>
+            <div class="slide-dots" id="dots"></div>
+            <div class="slide-counter" id="counter">01 / 06</div>
+        </div>
     </nav>
 
     <!-- ═══════════ SLIDE 1: TITLE ═══════════ -->
@@ -478,24 +483,77 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'ArrowRight') {
                 e.preventDefault();
-                currentSlide = Math.min(currentSlide + 1, slides.length - 1);
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+                const next = Math.min(currentSlide + 1, slides.length - 1);
+                slides[next].scrollIntoView({ behavior: 'smooth' });
             } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
                 e.preventDefault();
-                currentSlide = Math.max(currentSlide - 1, 0);
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+                const prev = Math.max(currentSlide - 1, 0);
+                slides[prev].scrollIntoView({ behavior: 'smooth' });
             }
         });
 
-        // Sync keyboard nav with scroll
+        // ─── Audio Narration ───
+        const slideScripts = [
+            "Hi, I'm presenting RIFT, a persistent on-chain Dark Forest strategy game built exclusively around Somnia Native Reactivity.",
+            "Unlike traditional Web 3 games that rely on off-chain servers or bots, RIFT lives entirely inside the blockchain. There are no servers, no off-chain game masters, and no keepers.",
+            "The blockchain itself is the Game Master. Real-world events trigger mutations on the 49-hex physical map in the exact same block.",
+            "We built 5 Custom Reactive Watchers. For example, the Price Oracle Watcher listens for price drops and triggers an Economic Shockwave, destroying market zone wealth.",
+            "All 14 smart contracts, including the 5 Somnia Reactive Watchers, are fully deployed and wired on the Somnia Testnet.",
+            "Here is the live game feed. You can connect your wallet and choose a faction. RIFT proves that with Native Reactivity, we can build autonomous, living virtual worlds right on the chain. Thanks for watching!"
+        ];
+
+        let playAudio = false;
+        const audioBtn = document.getElementById('audio-btn');
+
+        audioBtn.addEventListener('click', () => {
+            playAudio = !playAudio;
+            if (playAudio) {
+                audioBtn.textContent = 'NARRATION: ON';
+                audioBtn.style.background = 'var(--green-bright)';
+                audioBtn.style.color = 'var(--bg-void)';
+                speakCurrentSlide();
+            } else {
+                audioBtn.textContent = 'NARRATION: OFF';
+                audioBtn.style.background = 'var(--bg-void)';
+                audioBtn.style.color = 'var(--green-bright)';
+                window.speechSynthesis.cancel();
+            }
+        });
+
+        function speakCurrentSlide() {
+            if (!playAudio) return;
+            window.speechSynthesis.cancel();
+            if (slideScripts[currentSlide]) {
+                const utterance = new SpeechSynthesisUtterance(slideScripts[currentSlide]);
+                // Prefer high quality english voices if available
+                const voices = window.speechSynthesis.getVoices();
+                const preferred = voices.find(v => v.lang.includes('en') && (v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Premium') || v.name.includes('Natural')));
+                if (preferred) utterance.voice = preferred;
+
+                utterance.rate = 0.95;
+                utterance.pitch = 1.0;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Sync keyboard nav with scroll and trigger audio
         const scrollObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    currentSlide = Array.from(slides).indexOf(entry.target);
+                    const index = Array.from(slides).indexOf(entry.target);
+                    if (currentSlide !== index) {
+                        currentSlide = index;
+                        speakCurrentSlide();
+                    }
                 }
             });
         }, { threshold: 0.5 });
         slides.forEach(s => scrollObserver.observe(s));
+
+        // Ensure voices load
+        window.speechSynthesis.onvoiceschanged = () => {
+            window.speechSynthesis.getVoices();
+        };
 
         // Blinking text
         setInterval(() => {
