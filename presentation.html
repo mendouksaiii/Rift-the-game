@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIFT - Pitch Deck</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        /* Custom RIFT HD-2D Theme */
+        :root {
+            --color-signal: #00ff6a;
+            --color-bg: #050508;
+            --color-text: #d4d4e8;
+            --color-accent1: #38bdf8;
+            /* Architect */
+            --color-accent2: #fbbf24;
+            /* Scavenger */
+            --color-accent3: #a78bfa;
+            /* Oracle */
+            --font-display: 'Press Start 2P', monospace;
+            --font-body: 'VT323', monospace;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            background-image:
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+        }
+
+        .reveal {
+            font-family: var(--font-body);
+            color: var(--color-text);
+            font-size: 32px;
+        }
+
+        .reveal h1,
+        .reveal h2,
+        .reveal h3,
+        .reveal h4 {
+            font-family: var(--font-display);
+            color: var(--color-signal);
+            text-transform: uppercase;
+            text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
+            letter-spacing: 2px;
+        }
+
+        .reveal h1 {
+            font-size: 2.5em;
+        }
+
+        .reveal h2 {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+        }
+
+        .reveal h3 {
+            font-size: 1.2em;
+            color: var(--color-text);
+        }
+
+        .reveal .controls,
+        .reveal .progress {
+            color: var(--color-signal);
+        }
+
+        .glass-panel {
+            background: rgba(10, 11, 16, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid rgba(0, 255, 106, 0.5);
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow:
+                inset 0 0 20px rgba(0, 0, 0, 0.5),
+                0 8px 32px rgba(0, 0, 0, 0.8),
+                0 0 15px rgba(0, 255, 106, 0.2);
+        }
+
+        .highlight-green {
+            color: var(--color-signal);
+        }
+
+        .highlight-blue {
+            color: var(--color-accent1);
+        }
+
+        .highlight-gold {
+            color: var(--color-accent2);
+        }
+
+        .highlight-purple {
+            color: var(--color-accent3);
+        }
+
+        ul {
+            list-style-type: square !important;
+            font-size: 1.2em;
+        }
+
+        li {
+            margin-bottom: 20px;
+        }
+
+        .code-block {
+            background: #000;
+            border: 1px solid var(--color-signal);
+            padding: 15px;
+            font-family: var(--font-body);
+            font-size: 0.8em;
+            color: #00ff6a;
+            text-align: left;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Title -->
+            <section>
+                <div class="glass-panel">
+                    <h1 style="font-size: 3.5em; margin-bottom: 10px;">RIFT</h1>
+                    <h3>On-Chain Dark Forest Strategy</h3>
+                    <p style="margin-top: 40px; font-size: 1.5em; color: #7a7c9a;">Powered by <span
+                            class="highlight-green">Somnia Native Reactivity</span></p>
+                </div>
+            </section>
+
+            <!-- Slide 2: The Problem -->
+            <section>
+                <div class="glass-panel">
+                    <h2>The Problem</h2>
+                    <ul style="text-align: left;">
+                        <li>Web3 games are static or rely heavily on centralized servers.</li>
+                        <li>Off-chain "keepers" and external bots create points of failure.</li>
+                        <li>The game world feels entirely disconnected from the broader blockchain ecosystem.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 3: The Solution -->
+            <section>
+                <div class="glass-panel">
+                    <h2>The Solution</h2>
+                    <p style="font-size: 1.5em; margin-bottom: 30px;">True <span class="highlight-green">On-Chain
+                            Reactivity</span>.</p>
+                    <ul style="text-align: left;">
+                        <li>RIFT lives entirely inside the blockchain.</li>
+                        <li>Real-world blockchain events dynamically reshape the game board in the <b>exact same
+                                block</b>.</li>
+                        <li>No servers. No bots. The blockchain itself is the Game Master.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 4: Somnia Architecture -->
+            <section>
+                <div class="glass-panel">
+                    <h2>Somnia Watchers</h2>
+                    <p style="font-size: 1.2em; margin-bottom: 20px;">We built 5 Custom <span
+                            class="highlight-green">ReactiveWatchers</span>:</p>
+                    <ul style="font-size: 1em; text-align: left;">
+                        <li><span class="highlight-blue">Price Oracle</span> ➔ Triggers Economic Shockwaves</li>
+                        <li><span class="highlight-gold">Lending Liquidation</span> ➔ Triggers Territory Collapses</li>
+                        <li><span class="highlight-purple">Whale Transfers</span> ➔ Triggers Seismic Fault Line Shifts
+                        </li>
+                        <li><span class="highlight-blue">DAO Governance</span> ➔ Unlocks Oracle Race Windows</li>
+                        <li><span class="highlight-green">Yield Claiming</span> ➔ Triggers Map-Wide Prosperity</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 5: Factions -->
+            <section>
+                <div class="glass-panel">
+                    <h2>Choose Allegiance</h2>
+                    <div style="display: flex; justify-content: space-around; margin-top: 40px; text-align: left;">
+                        <div>
+                            <h3 class="highlight-blue" style="font-family: var(--font-display); font-size: 1em;">■
+                                ARCHITECT</h3>
+                            <p style="font-size: 1em; color: #d4d4e8;">Builders & Defenders<br>Thrive in stability.</p>
+                        </div>
+                        <div>
+                            <h3 class="highlight-gold" style="font-family: var(--font-display); font-size: 1em;">▲
+                                SCAVENGER</h3>
+                            <p style="font-size: 1em; color: #d4d4e8;">Raiders & Opportunists<br>Thrive in chaos.</p>
+                        </div>
+                        <div>
+                            <h3 class="highlight-purple" style="font-family: var(--font-display); font-size: 1em;">●
+                                ORACLE</h3>
+                            <p style="font-size: 1em; color: #d4d4e8;">Seers & Speculators<br>Thrive in governance.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 6: Demo Transition -->
+            <section>
+                <div class="glass-panel">
+                    <h2>Initialize Uplink</h2>
+                    <p style="font-size: 1.8em; margin-top: 40px;" class="highlight-green blink">AWAITING COMMAND...</p>
+                    <p style="font-size: 1.2em; color: #5a5c72; margin-top: 20px;">Deploying to Live Demo</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: true,
+            transition: 'zoom', // none/fade/slide/convex/concave/zoom
+            backgroundTransition: 'fade',
+        });
+
+        // Add subtle blinking effect to the initializing text
+        setInterval(() => {
+            const blinker = document.querySelector('.blink');
+            if (blinker) {
+                blinker.style.opacity = blinker.style.opacity === '0' ? '1' : '0';
+            }
+        }, 800);
+    </script>
+</body>
+
+</html>
