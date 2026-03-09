@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 150" width="800" height="300">
+    <!-- Dark Background -->
+    <rect width="100%" height="100%" fill="#050508"/>
+    
+    <!-- Core Grid/Scanline Effect -->
+    <defs>
+        <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+            <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(0, 255, 106, 0.1)" stroke-width="0.5"/>
+        </pattern>
+        <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+        <filter id="neon-blue" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+        
+        <!-- Web Font isn't directly supported in standalone SVG viewers usually, so we'll draw it as paths or standard system bold fonts for fallback, but include the font style. -->
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap');
+            .logo-text {
+                font-family: 'Press Start 2P', monospace, sans-serif;
+                font-size: 64px;
+                fill: #00ff6a;
+                filter: url(#neon-glow);
+            }
+            .logo-shadow {
+                font-family: 'Press Start 2P', monospace, sans-serif;
+                font-size: 64px;
+                fill: #1e3a8a;
+                filter: url(#neon-blue);
+            }
+            .sub-text {
+                font-family: 'Press Start 2P', monospace, sans-serif;
+                font-size: 14px;
+                fill: #d4d4e8;
+                letter-spacing: 2px;
+            }
+        </style>
+    </defs>
+
+    <rect width="100%" height="100%" fill="url(#grid)" />
+
+    <!-- Text Shadow / Offset -->
+    <text x="204" y="94" class="logo-shadow" text-anchor="middle">RIFT</text>
+    
+    <!-- Main Text -->
+    <text x="200" y="90" class="logo-text" text-anchor="middle">RIFT</text>
+
+    <!-- Subtitle -->
+    <text x="200" y="125" class="sub-text" text-anchor="middle">ON-CHAIN STRATEGY</text>
+
+    <!-- Left Pixel Decoration -->
+    <rect x="30" y="55" width="15" height="15" fill="#38bdf8" />
+    <rect x="25" y="75" width="20" height="20" fill="#a78bfa" />
+    <rect x="50" y="70" width="10" height="10" fill="#fbbf24" opacity="0.8"/>
+
+    <!-- Right Pixel Decoration -->
+    <rect x="350" y="50" width="25" height="25" fill="#00ff6a" opacity="0.6"/>
+    <rect x="340" y="80" width="15" height="15" fill="#f43f5e" opacity="0.9"/>
+    <rect x="375" y="70" width="10" height="10" fill="#38bdf8" />
+</svg>
