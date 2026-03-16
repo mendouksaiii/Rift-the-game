@@ -80,7 +80,9 @@ export function GameProvider({ children }) {
         try {
             console.log('[RIFT] Requesting MetaMask accounts...');
             const bp = new BrowserProvider(window.ethereum);
-            const accs = await bp.send('eth_requestAccounts', []);
+            // Force MetaMask to show the account chooser popup every time
+            await bp.send('wallet_requestPermissions', [{ eth_accounts: {} }]);
+            const accs = await bp.send('eth_accounts', []);
             console.log('[RIFT] Connected:', accs[0]);
             const s = await bp.getSigner();
             setProvider(bp); setSigner(s); setAccount(accs[0]); setConnected(true);
